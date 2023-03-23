@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import WeatherInfo from "./WeatherInfo";
 import axios from "axios";
 import "./Weather.css";
+import Forecast from "./Forecast";
+
 export default function Weather(props) {
   const [weatherData, setWeatherData] = useState({ready: false});
   const [city, setCity] = useState(props.defaultCity);
@@ -16,6 +18,7 @@ export default function Weather(props) {
     humidity: Math.round(response.data.main.humidity),
     wind: Math.round(response.data.wind.speed),
     icon: response.data.weather[0].icon,
+    coord: response.data.coord,
 
 });  }
 function search() {
@@ -33,30 +36,42 @@ function updateCity(event) {
 }
 
   if (weatherData.ready) {
-    return <div className="App"><div>
-      <form className="mb-3" onSubmit={handleSubmit}>
-        <div className="row">
-          <div className="col-md-9">
-            <input
-              type="search"
-              placeholder="Enter a city..."
-              className="form-control"
-              onChange={updateCity}
-              autoComplete="off"
-            />
-          </div>
-          <div className="col-md-3">
-            <input
-              type="submit"
-              value="Search"
-              className="btn btn-primary w-100"
-            />
-          </div>
+    return (
+      <div className="App">
+        <div>
+          <form className="mb-3" onSubmit={handleSubmit}>
+            <div className="row">
+              <div className="col-md-9">
+                <input
+                  type="search"
+                  placeholder="Enter a city..."
+                  className="form-control"
+                  onChange={updateCity}
+                  autoComplete="off"
+                />
+              </div>
+              <div className="col-md-3">
+                <input
+                  type="submit"
+                  value="Search"
+                  className="btn btn-primary w-100"
+                />
+              </div>
+            </div>
+          </form>
         </div>
-      </form>
-    </div>
-      <WeatherInfo data={weatherData} />
+        <WeatherInfo data={weatherData} />
+        <div className="forecast">
+          <Forecast coord={weatherData.coord} />
+        </div>
+        <footer className="footer">
+          Open-sourced code by{" "}
+          <a href="https://github.com/temi-kuye/weather-react-app">
+            Victoria Kuye
+          </a>
+        </footer>
       </div>
+    );
       }
   
   else {
