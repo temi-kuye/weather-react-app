@@ -70,6 +70,12 @@ export default function Weather(props) {
         </div>
       </div>
       <div className="forecast"></div>
+      <footer>
+        Open-sourced code by{" "}
+        <a href="https://github.com/temi-kuye/weather-react-app">
+          Victoria Kuye
+        </a>
+      </footer>
     </div>
   );
 }
