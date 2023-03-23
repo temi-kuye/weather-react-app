@@ -8,15 +8,14 @@
   border: 1px solid #eba6eb;
   border-radius: 5px;
 }
-.weather-temp img {
+.weather-temp div {
   margin-right: 5px;
   float: left;
   height: 64px;
-  width: 64px;
 }
 .weather-temp strong {
   color: #31fae9;
-  font-size: 64px;
+  font-size: 60px;
   font-weight: 600;
   line-height: 1;
 }
