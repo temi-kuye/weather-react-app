@@ -4,48 +4,52 @@ import axios from "axios";
 import "./Weather.css";
 
 export default function Weather(props) {
-  let [temperature, setTemperature] = useState(props.temperature);
-  // function fahrenheit() {
-  // let temperature = (props.temperature * 9) / 5 + 32;
-  // return Math.round(temperature); }
+  const [weatherData, setWeatherData] = useState({ready: false});
+  function showTemperature(response) {
+    console.log(response.data);
+    setWeatherData({
+    ready: true,
+    city: response.data.name,
+    date: "Thursday 09:00",
+    description: response.data.weather[0].description,
+    temp: Math.round(response.data.main.temp),
+    humidity: Math.round(response.data.main.humidity),
+    wind: Math.round(response.data.wind.speed),
+    iconUrl: "https://ssl.gstatic.com/onebox/weather/64/sunny_s_cloudy.png",
+
+});  }
+
   function showFahrenheit(event) {
     event.preventDefault();
-    let fahrenheit = Math.round(props.temperature * (9 / 5) + 32);
-    setTemperature(fahrenheit);
+    let fahrenheit = Math.round(weatherData.temp * (9 / 5) + 32);
+    setWeatherData.temp(fahrenheit);
   }
   function showCelsius(event) {
     event.preventDefault();
-    setTemperature(props.temperature);
+    return weatherData.temp;
   }
-  let weatherData = {
-    city: "Pompeii",
-    date: "Thursday 09:00",
-    description: "Windy",
-    temp: "20",
-    humidity: "50",
-    wind: "180",
-  };
-  return (
-    <div className="App">
+
+  if (weatherData.ready) {
+    return <div className="App">
       <SearchEngine />
       <div className="where">
-        <h1>{props.city}</h1>
+        <h1>{weatherData.city}</h1>
         <ul>
           <li>
             Last updated <span> {weatherData.date}</span>
           </li>
-          <li>{weatherData.description}</li>
+          <li className="text-capitalize">{weatherData.description}</li>
         </ul>
       </div>
       <div className="row">
         <div className="col-6">
           <div className="weather-temp">
             <img
-              src="https://ssl.gstatic.com/onebox/weather/64/sunny_s_cloudy.png"
+              src={weatherData.iconUrl}
               alt="Sunny and Cloudy icon"
             />
             <div className="degrees">
-              <strong>{temperature}</strong>
+              <strong>{Math.round(weatherData.temp)}</strong>
               <span className="units">
                 <a href="/" className="active" onClick={showCelsius}>
                   °C
@@ -76,6 +80,11 @@ export default function Weather(props) {
           Victoria Kuye
         </a>
       </footer>
-    </div>
-  );
-}
+    </div>; }
+  
+  else {
+    const apiKey = "5ce2a0772c57a0ba17c711bc946cb320";
+  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${props.defaultCity}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(showTemperature);
+return "loading..."
+} }
