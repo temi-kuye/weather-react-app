@@ -31,15 +31,6 @@ function handleSubmit(event) {
 function updateCity(event) {
   setCity(event.target.value);
 }
-  function showFahrenheit(event) {
-    event.preventDefault();
-    let fahrenheit = Math.round(weatherData.temp * (9 / 5) + 32);
-    setWeatherData.temp(fahrenheit);
-  }
-  function showCelsius(event) {
-    event.preventDefault();
-    return weatherData.temp;
-  }
 
   if (weatherData.ready) {
     return <div className="App"><div>
@@ -64,7 +55,7 @@ function updateCity(event) {
         </div>
       </form>
     </div>
-      <WeatherInfo data={weatherData} fahrenheit={showFahrenheit} celsius={showCelsius} />
+      <WeatherInfo data={weatherData} />
       </div>
       }
   
